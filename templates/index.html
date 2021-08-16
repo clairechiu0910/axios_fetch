@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+    <meta charset="utf-8">
+    <title>Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- AXIOS -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <header class="mb-auto">
+        </header>
+
+        <main class="px-3">
+            <button type="button" onclick="call_api_axios()" class="btn btn-light m-3">
+                Click here to call api axios
+            </button>
+
+            <button type="button" onclick="call_api_fetch()" class="btn btn-light m-3">
+                Click here to call api fetch
+            </button>
+
+            <p id="res" class="text-write">Response</p>
+        </main>
+
+        <footer class="mt-auto text-white-50">
+        </footer>
+    </div>
+
+    <script>
+        function call_api_axios() {
+            console.log("call api");
+            //會印在按F12裡的console裡面 debug很好用
+
+            axios.post('/api', {
+                sec: 3,
+            })
+                .then(function (response) {
+                    console.log(response.data);
+
+                    $("#res").text(response.data.data);
+                    // get element by id
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        function call_api_fetch() {
+            console.log("call api");
+            //會印在按F12裡的console裡面 debug很好用
+
+            fetch('/api', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'sec': 1
+                })
+            })
+                .then(function (response) {
+                    response.json().then(function (data) {
+                        $("#res").text(data.data);
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    </script>
+</body>
+
+</html>
